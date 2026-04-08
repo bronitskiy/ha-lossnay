@@ -1,0 +1,12 @@
+{
+  "domain": "lossnay",
+  "name": "Mitsubishi Lossnay ERV",
+  "version": "1.0.0",
+  "documentation": "https://github.com/bronitskiy/ha-lossnay",
+  "issue_tracker": "https://github.com/bronitskiy/ha-lossnay/issues",
+  "requirements": [],
+  "dependencies": [],
+  "codeowners": ["@bronitskiy"],
+  "iot_class": "cloud_polling",
+  "config_flow": true
+}

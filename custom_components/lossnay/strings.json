@@ -1,0 +1,30 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to MelView",
+        "description": "Enter your MelView account credentials (NZ/AU).",
+        "data": {
+          "email": "Email address",
+          "password": "Password"
+        }
+      },
+      "select_unit": {
+        "title": "Select Lossnay unit",
+        "description": "Multiple ERV units found. Select the one to add.",
+        "data": {
+          "unitid": "Unit"
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "Invalid email or password.",
+      "cannot_connect": "Unable to connect to MelView. Check your internet connection.",
+      "no_units_found": "No Lossnay ERV units found on this account.",
+      "unknown": "An unexpected error occurred."
+    },
+    "abort": {
+      "already_configured": "This unit is already configured."
+    }
+  }
+}
