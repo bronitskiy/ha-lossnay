@@ -40,25 +40,26 @@ class MelViewClient:
         self._cookie_jar = aiohttp.CookieJar()
 
     async def login(self) -> None:
-        """Authenticate and store session cookies."""
-        payload = {
-            "user": self._email,
-            "pass": self._password,
-            "appversion": APP_VERSION,
-        }
+        """Authenticate and store session cookies.
+
+        MelView expects a JSON body but with the application/x-www-form-urlencoded
+        Content-Type header — this matches the behaviour of the official app.
+        """
+        import json as _json
+
+        body = _json.dumps(
+            {"user": self._email, "pass": self._password, "appversion": APP_VERSION}
+        ).encode()
         try:
             async with self._session.post(
                 MELVIEW_LOGIN_URL,
-                data=payload,
+                data=body,
                 headers=HEADERS,
             ) as resp:
+                if resp.status in (401, 403):
+                    raise MelViewAuthError(f"Login failed with HTTP {resp.status}")
                 if resp.status != 200:
-                    raise MelViewAuthError(
-                        f"Login failed with HTTP {resp.status}"
-                    )
-                text = await resp.text()
-                if "unauthorized" in text.lower() or "invalid" in text.lower():
-                    raise MelViewAuthError("Invalid credentials")
+                    raise MelViewAuthError(f"Login failed with HTTP {resp.status}")
                 _LOGGER.debug("MelView login successful")
         except aiohttp.ClientError as err:
             raise MelViewError(f"Network error during login: {err}") from err
